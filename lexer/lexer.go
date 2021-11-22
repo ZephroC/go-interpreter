@@ -6,10 +6,10 @@ import (
 )
 
 type Lexer struct {
-	input string
-	position int
+	input        string
+	position     int
 	readPosition int
-	ch byte
+	ch           byte
 }
 
 func New(input string) *Lexer {
@@ -38,8 +38,9 @@ func (l *Lexer) NextToken() token.Token {
 			l.readChar()
 			tok.Type = token.EQ
 			tok.Literal = "=="
+		} else {
+			tok.Type = token.ASSIGN
 		}
-		tok.Type = token.ASSIGN
 	case ';':
 		tok.Type = token.SEMICOLON
 	case '(':
@@ -53,7 +54,7 @@ func (l *Lexer) NextToken() token.Token {
 	case ',':
 		tok.Type = token.COMMA
 	case '+':
-		tok.Type =token.PLUS
+		tok.Type = token.PLUS
 	case '-':
 		tok.Type = token.MINUS
 	case '!':
@@ -61,8 +62,9 @@ func (l *Lexer) NextToken() token.Token {
 			l.readChar()
 			tok.Type = token.NOT_EQ
 			tok.Literal = "!="
+		} else {
+			tok.Type = token.BANG
 		}
-		tok.Type = token.BANG
 	case '*':
 		tok.Type = token.ASTERISK
 	case '/':
@@ -83,7 +85,7 @@ func (l *Lexer) NextToken() token.Token {
 			tok.Literal = l.readNumber()
 			tok.Type = token.INT
 			return tok
-		} else  {
+		} else {
 			tok.Type = token.ILLEGAL
 		}
 	}
